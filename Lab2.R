@@ -1,0 +1,18 @@
+install.packages("formattable")
+install.packages("DiagrammeR")
+install.packages("C:/Users/Dell/Desktop/STUDIA/studia magisterskie/1 sem/Analiza uczenia maszynowego/lab2/ahp_0.2.12.tar.gz",repos=NULL,type = "source")
+install.packages("data.tree")
+setwd("C:/Users/Dell/Desktop/STUDIA/studia magisterskie/1 sem/Analiza uczenia maszynowego/lab2")
+getwd()
+
+library(data.tree)
+library(formattable)
+library(DiagrammeR)
+library(ahp)
+
+fileAhp <- system.file("extdata", "Ipady.ahp", package="ahp")
+ahpData <- Load(fileAhp)
+Calculate(ahpData)
+Analyze(ahpData)
+AnalyzeTable(ahpData)
+PrioritiesFromPairwiseMatrixMeanNormalization(ahpData)

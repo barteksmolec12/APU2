@@ -1,0 +1,188 @@
+Version: 2.0
+
+#########################
+# Alternatives Section
+#
+
+Alternatives: &alternatives
+ # Here, we list all the alternatives, together with their attributes. 
+ # We can use these attributes later in the file when defining 
+ # preferenceFunctions. The attributes can be quantitative or 
+ # qualitative.
+ 
+  iPad Apple iPad Pro 12_9" 2021 Wi-Fi 256GB (srebrny):
+    wyswietlacz: 12.9
+    ram: 8
+    dysk: 256
+    aparat: 12
+    cena: 5499
+    kolor: srebrny
+    system operacyjny: iPadOS14
+    matryca: Liquid Retina XDR
+    lacznosc bezprzewodowa: WiFi 802.11 ax
+    zlacze USB: C
+    procesor: 8 
+
+  iPad Apple iPad Pro 12_9" 2021 Wi-Fi 512GB (gwiezdna szarosc): 
+    wyswietlacz: 12.9 
+    ram: 8
+    dysk: 512
+    aparat: 12
+    cena: 6999
+    kolor: szary
+    system operacyjny: iPadOS14
+    matryca: Liquid Retina XDR
+    lacznosc bezprzewodowa: WiFi 802.11 ax
+    zlacze USB: C
+    procesor: 8
+
+  iPad Apple iPad Pro 12_9" 2021 Wi-Fi + Cellular 128GB (gwiezdna szarosc):
+    wyswietlacz: 12.9 
+    ram: 8
+    dysk: 128
+    aparat: 12
+    cena: 6299
+    kolor: szary
+    system operacyjny: iPadOS14
+    matryca: Liquid Retina XDR
+    lacznosc bezprzewodowa: WiFi 802.11 ax 
+    zlacze USB: C
+    procesor: 8
+
+  iPad Apple iPad Pro 12_9" 2021 Wi-Fi + Cellular 512GB (srebrny):
+    wyswietlacz: 12.9
+    ram: 8 
+    dysk: 512
+    aparat: 12
+    cena: 7799
+    kolor: srebrny 
+    system operacyjny: iPadOS14
+    matryca: Liquid Retina XDR
+    lacznosc bezprzewodowa: WiFi 802.11 ax
+    zlacze USB: C
+    procesor: 8
+
+  iPad Apple iPad Pro 11" 2021 Wi-Fi 1TB (gwiezdna szarosc):
+    wyswietlacz: 11
+    ram: 16
+    dysk: 1
+    aparat: 12
+    cena: 7399
+    kolor: szary 
+    system operacyjny: iPadOS14
+    matryca: Liquid Retina
+    lacznosc bezprzewodowa: WiFi 802.11 ax
+    zlacze USB: C
+    procesor: 8
+
+  iPad mini Apple iPad mini 2019 Wi-Fi 64GB (zloty):
+    wyswietlacz: 7.9
+    ram: 3
+    dysk: 64
+    aparat: 8
+    cena: 1879
+    kolor: zloty
+    system operacyjny: iOS 12
+    matryca: Retina
+    lacznosc bezprzewodowa: WiFi 802.11 ac
+    zlacze USB: NIE 
+    procesor: 6
+
+  iPad mini Apple iPad mini 2019 Wi-Fi 256GB (gwiezdna szarosc):
+    wyswietlacz: 7.9
+    ram: 3
+    dysk: 256
+    aparat: 8
+    cena: 2699
+    kolor: szary 
+    system operacyjny: iOS 12
+    matryca: Retina
+    lacznosc bezprzewodowa: WiFi 802.11 ac
+    zlacze USB: NIE
+    procesor: 6
+
+  iPad Apple iPad Pro 11" 2020 Wi-Fi + Cellular 256GB (gwiezdna szarosc):
+    wyswietlacz: 11
+    ram: 6
+    dysk: 256
+    aparat: 12
+    cena: 4699
+    kolor: szary 
+    system operacyjny: iPadOS
+    matryca: Retina
+    lacznosc bezprzewodowa: WiFi 802.11 ax
+    zlacze USB: C
+    procesor: 8
+
+  iPad mini Apple iPad mini 2021 8_3" Wi-Fi + Cellular 64GB (ksiezycowa poswiata):
+    wyswietlacz: 8.3
+    ram: 4
+    dysk: 64
+    aparat: 12
+    cena: 3499
+    kolor: zloty
+    system operacyjny: iPadOS 15
+    matryca: Retina
+    lacznosc bezprzewodowa: WiFi 802.11 ax
+    zlacze USB: C
+    procesor: 6
+
+  iPad Apple iPad Pro 11" 2021 Wi-Fi 256GB (srebrny): 
+    wyswietlacz: 11
+    ram: 8
+    dysk: 256
+    aparat: 12
+    cena: 4399
+    kolor: srebrny 
+    system operacyjny: iPadOS14
+    matryca: Liquid Retina
+    lacznosc bezprzewodowa: WiFi 802.11 ax
+    zlacze USB: C
+    procesor: 8
+
+Goal:
+  name: Zakup iPada dla klienta
+  author: BartekSmolec
+  preferences:
+    # Klient ma duzy budzet i najwazniejsza jest dla niego wydajność, cena jest nieistotna
+    # wydajnosc-jakosc-styl-cena
+    pairwise:
+      - [Wydajnosc, Jakosc, 7]
+      - [Wydajnosc, Styl, 7]
+      - [Wydajnosc, Cena, 9]
+      - [Jakosc, Styl, 1]
+      - [Jakosc, Cena, 2]
+      - [Styl, Cena, 2]
+  children: 
+    Jakosc: 
+       preferences:
+       # Jak najlepszy aparat
+           pairwiseFunction: 
+             function(a1, a2) max(1/9, max(1/9, a1$aparat/a2$aparat))
+       children: *alternatives	
+
+    Wydajnosc:
+      preferences:
+        # jak największa pojemnośc dysku twardego
+        pairwiseFunction:
+          function(a1, a2) max(1/9, max(1/9, a1$dysk/a2$dysk))
+      children: *alternatives 
+
+    Cena:
+      preferences: 
+        # cena jak najmniejsza
+        pairwiseFunction:
+          function(a1, a2) max(1/9, min(9, a2$cena/a1$cena))
+      children: *alternatives
+
+    Styl: 
+      preferences:
+        pairwiseFunction: >
+          BestColor <- function(a1, a2) {
+
+            if (a1$kolor == 'zloty' & a2$kolor == 'zloty') return (2)
+            if (a1$kolor == 'zloty' & a2$kolor == 'szary') return (6)
+            if (a1$kolor == a2$kolor) return (1)
+            return (1)
+          }
+      children: *alternatives
